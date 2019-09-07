@@ -19,8 +19,22 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
 
-
         singleLinkedList.list();
+
+        HeroNode newHeroNode = new HeroNode(2, "小路", "yuqilin");
+        singleLinkedList.update(newHeroNode);
+
+        System.out.println("修改后的链表");
+        singleLinkedList.list();
+
+        singleLinkedList.del(1);
+        singleLinkedList.del(2);
+        singleLinkedList.del(3);
+        singleLinkedList.del(4);
+
+        System.out.println("删除后的链表");
+        singleLinkedList.list();
+
     }
 }
 
@@ -78,6 +92,37 @@ class SingleLinkedList {
         }
     }
 
+    //修改节点信息，根据no修改，即no不能改变
+    //根据heroNode的编号修改
+    public void update(HeroNode newHeroNode) {
+        //判断是否为空
+        if (head.next == null) {
+            System.out.println("链表为空");
+            return;
+        }
+        //找到需要修改的节点，根据no
+        //定义一个辅助变量
+        HeroNode temp = head.next;
+        boolean flag = false;//是否找到该节点
+        while (true) {
+            if (temp == null) {
+                break;//已经遍历完链表
+            }
+            if (temp.no == newHeroNode.no) {
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        //根据flag判断是否找到要修改的节点
+        if (flag) {
+            temp.name = newHeroNode.name;
+            temp.nickname = newHeroNode.nickname;
+        } else {
+            System.out.printf("没有找到编号为%d的节点，不能修改/n", newHeroNode.no);
+        }
+    }
+
     //显示链表[遍历]
     public void list() {
         if (head.next == null) {
@@ -93,6 +138,31 @@ class SingleLinkedList {
             //输出节点的信息
             System.out.println(temp);
             temp = temp.next;
+        }
+    }
+
+    //删除节点
+    //思路
+    //1.head不能动，因此我们需要找到一个temp辅助节点找到待删除节点的前一个节点
+    //2.说明我们在比较时，是temp。temp.no和需要删除的节点的no比较
+    public void del(int no) {
+        HeroNode temp = head;
+        boolean flag = false;//是否找到待删除节点
+        while (true) {
+            if (temp.next == null) {//已经到链表的最后
+                break;
+            }
+            if (temp.next.no == no) {
+                //找到待删除节点的前一个节点
+                flag = true;
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag == true) {
+            temp.next = temp.next.next;
+        } else {
+            System.out.printf("要删除的%d节点不存在", no);
         }
     }
 }
