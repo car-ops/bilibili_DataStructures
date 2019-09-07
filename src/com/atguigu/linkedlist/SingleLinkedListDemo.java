@@ -19,7 +19,14 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
 
+        //原链表
         singleLinkedList.list();
+        //反转之后
+        SingleLinkedList.reversetList(singleLinkedList.getHead());
+        System.out.println("反转之后的链表");
+        singleLinkedList.list();
+
+
 
         HeroNode newHeroNode = new HeroNode(2, "小路", "yuqilin");
         singleLinkedList.update(newHeroNode);
@@ -223,6 +230,28 @@ class SingleLinkedList {
             cur = cur.next;
         }
         return cur;
+    }
+
+    //将单链表反转
+    public static void reversetList(HeroNode head) {
+        //如果当前链表为空，或者只有一个节点，无需反转，直接返回
+        if (head.next == null || head.next.next == null) {
+            return;
+        }
+        //定义一个辅助指针（变量），帮助我们遍历原来的链表
+        HeroNode cur = head.next;
+        HeroNode next = null;//指向当前节点[cur]的下一个节点
+        HeroNode reverseHead = new HeroNode(0, "", "");
+        //遍历原来的链表
+        //每遍历一个节点，就将其取出，并放在新的链表reverseHead的最前端
+        while (cur != null) {
+            next = cur.next;//先暂时保存当前节点的下一个节点，因为后面需要使用
+            cur.next = reverseHead.next;//将cur的下一个节点指向新的链表的最前端
+            reverseHead.next = cur;//将cur链接到新的链表上
+            cur = next;//让cur后移
+        }
+        //将head.next指向reverseHead.next，实现单链表的反转
+        head.next = reverseHead.next;
     }
 
 
