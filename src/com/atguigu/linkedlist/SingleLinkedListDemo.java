@@ -1,13 +1,15 @@
 package com.atguigu.linkedlist;
 
+import java.util.Stack;
+
 public class SingleLinkedListDemo {
     public static void main(String[] args) {
         //进行测试
         //先创建节点
         HeroNode hero1 = new HeroNode(1, "宋江", "及时雨");
-        HeroNode hero2 = new HeroNode(2, "卢俊义", "玉麒麟");
-        HeroNode hero3 = new HeroNode(3, "吴用", "智多星");
-        HeroNode hero4 = new HeroNode(4, "林冲", "豹子头");
+        HeroNode hero2 = new HeroNode(3, "卢俊义", "玉麒麟");
+        HeroNode hero3 = new HeroNode(5, "吴用", "智多星");
+        HeroNode hero4 = new HeroNode(7, "林冲", "豹子头");
 
         SingleLinkedList singleLinkedList = new SingleLinkedList();
 //        singleLinkedList.add(hero1);
@@ -19,35 +21,62 @@ public class SingleLinkedListDemo {
         singleLinkedList.addByOrder(hero2);
         singleLinkedList.addByOrder(hero3);
 
-        //原链表
-        singleLinkedList.list();
-        //反转之后
-        SingleLinkedList.reversetList(singleLinkedList.getHead());
-        System.out.println("反转之后的链表");
-        singleLinkedList.list();
+        HeroNode hero5 = new HeroNode(2, "宋江", "及时雨");
+        HeroNode hero6 = new HeroNode(4, "卢俊义", "玉麒麟");
+        HeroNode hero7 = new HeroNode(6, "吴用", "智多星");
+        HeroNode hero8 = new HeroNode(8, "林冲", "豹子头");
+
+        SingleLinkedList singleLinkedList1 = new SingleLinkedList();
+//        singleLinkedList.add(hero1);
+//        singleLinkedList.add(hero2);
+//        singleLinkedList.add(hero3);
+//        singleLinkedList.add(hero4);
+        singleLinkedList1.addByOrder(hero5);
+        singleLinkedList1.addByOrder(hero6);
+        singleLinkedList1.addByOrder(hero7);
+        singleLinkedList1.addByOrder(hero8);
+        HeroNode head_new = SingleLinkedList.merge(singleLinkedList.getHead(), singleLinkedList1.getHead());
+        HeroNode temp = head_new.next;
+        System.out.println(head_new.next.next+"===");
+        while (temp != null) {
+            //输出节点的信息
+            System.out.println(temp);
+            temp = temp.next;
+        }
 
 
-
-        HeroNode newHeroNode = new HeroNode(2, "小路", "yuqilin");
-        singleLinkedList.update(newHeroNode);
-
-        System.out.println("修改后的链表");
-        singleLinkedList.list();
-
-//        singleLinkedList.del(1);
-//        singleLinkedList.del(2);
-//        singleLinkedList.del(3);
-//        singleLinkedList.del(4);
-
-        System.out.println("删除后的链表");
-        singleLinkedList.list();
-
-        System.out.println("有效的节点个数=" + SingleLinkedList.getLength(singleLinkedList.getHead()));
-
-        //测试一下看看是否得到了倒数第K个节点
-        HeroNode res = SingleLinkedList.findLastIndexNode(singleLinkedList.getHead(), 4);
-        System.out.println("res=" + res);
-
+//        //原链表
+//        singleLinkedList.list();
+//        //反转之后
+////        SingleLinkedList.reversetList(singleLinkedList.getHead());
+////        System.out.println("反转之后的链表");
+////        singleLinkedList.list();
+//        //逆序打印
+//        System.out.println("逆序打印");
+//        SingleLinkedList.reversePrint(singleLinkedList.getHead());
+//
+//
+//
+//        HeroNode newHeroNode = new HeroNode(2, "小路", "yuqilin");
+//        singleLinkedList.update(newHeroNode);
+//
+//        System.out.println("修改后的链表");
+//        singleLinkedList.list();
+//
+////        singleLinkedList.del(1);
+////        singleLinkedList.del(2);
+////        singleLinkedList.del(3);
+////        singleLinkedList.del(4);
+//
+//        System.out.println("删除后的链表");
+//        singleLinkedList.list();
+//
+//        System.out.println("有效的节点个数=" + SingleLinkedList.getLength(singleLinkedList.getHead()));
+//
+//        //测试一下看看是否得到了倒数第K个节点
+//        HeroNode res = SingleLinkedList.findLastIndexNode(singleLinkedList.getHead(), 4);
+//        System.out.println("res=" + res);
+//
     }
 }
 
@@ -66,11 +95,11 @@ class SingleLinkedList {
     //2.将最后这个节点的next指向新的节点
     public void add(HeroNode heroNode) {
         //因为head节点不能动，因此我们需要一个辅助遍历temp
-        HeroNode temp = head;
+        HeroNode temp = head.next;
         //遍历链表，找到最后
         while (true) {
             //找到链表的最后
-            if (temp.next == null) {
+            if (temp == null) {
                 break;
             }
             //如果没有找到最后，将temp后移
@@ -254,7 +283,46 @@ class SingleLinkedList {
         head.next = reverseHead.next;
     }
 
+    //方式2
+    //可以利用栈这个数据结构，将各个节点压入栈中，然后利用栈的先进后出的特点，就实现了栈的逆序打印的效果
+    public static void reversePrint(HeroNode head) {
+        if (head.next == null) {
+            return;//空链表，不能打印
+        }
+        //创建一个栈，将各个节点压入栈
+        Stack<HeroNode> stack = new Stack<>();
+        HeroNode cur = head.next;
+        //将链表中所有节点压入栈中
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.next;//cur后移，这样可以压入下一个节点
+        }
+        //将栈中的节点打印
+        while (stack.size() > 0) {
+            System.out.println(stack.pop());//stack的特点是先进后出
+        }
+    }
 
+    //合并两个有序的单链表，合并之后的链表依然有序
+    public static HeroNode merge(HeroNode head1, HeroNode head2) {
+        HeroNode head = null;
+        if (head1 == null) {
+            return head2;
+        }
+
+        if (head2 == null) {
+            return head1;
+        }
+
+        if (head1.no <= head2.no) {
+            head = head1;
+            head.next = merge(head1.next, head2);
+        } else {
+            head = head2;
+            head.next = merge(head1, head2.next);
+        }
+        return head;
+    }
 
 }
 
