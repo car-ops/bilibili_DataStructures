@@ -12,16 +12,16 @@ public class PolandNotation {
         List<String> parseSuffixExpressionList = parseSuffixExpressionList(infixExpressionList);
         System.out.println(parseSuffixExpressionList);
 
-        //先定义一个逆波兰表达式
-        //说明为了方便，逆波兰表达式的数字和符号用空格隔开
-//        String suffixExpression = "30 4 + 5 * 6 -";
-//        //思路
-//        //1.先将"3 4 + 5 * 6 -"放到ArrayList中
-//        //2.将ArrayList传递给一个方法，遍历ArrayList配合栈完成计算
-//        List<String> rpnList = getListString(suffixExpression);
-//        System.out.println("rpnList=" + rpnList);
-//        int res = calculate(rpnList);
-//        System.out.println("计算的结果是=" + res);
+//        先定义一个逆波兰表达式
+//        说明为了方便，逆波兰表达式的数字和符号用空格隔开
+        String suffixExpression = "30 4 + 5 * 6 -";
+        //思路
+        //1.先将"3 4 + 5 * 6 -"放到ArrayList中
+        //2.将ArrayList传递给一个方法，遍历ArrayList配合栈完成计算
+        List<String> rpnList = getListString(suffixExpression);
+        System.out.println("rpnList=" + rpnList);
+        int res = calculate(parseSuffixExpressionList);
+        System.out.println("计算的结果是=" + res);
     }
 
     //方法：将得到的中缀表达式对应的List => 后缀表达式对应的List
