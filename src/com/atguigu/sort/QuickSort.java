@@ -42,7 +42,7 @@ public class QuickSort {
             if (arr[r] == pivot) {
                 l += 1;
             }
-
+        }
             if (l == r) {
                 l += 1;
                 r -= 1;
@@ -55,6 +55,5 @@ public class QuickSort {
             if (right > l) {
                 quickSort(arr, l, right);
             }
-        }
     }
 }
