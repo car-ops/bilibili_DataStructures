@@ -11,28 +11,22 @@ public class MergeSort {
     }
 
     //分+合
-    //分+合方法
     public static void mergeSort(int[] arr, int left, int right, int[] temp) {
-        if(left < right) {
-            int mid = (left + right) / 2; //中间索引
-            //向左递归进行分解
+        if (left < right) {
+            int mid = (left + right) / 2;
             mergeSort(arr, left, mid, temp);
-            //向右递归进行分解
             mergeSort(arr, mid + 1, right, temp);
             //合并
             merge(arr, left, mid, right, temp);
-
         }
     }
 
-    //合并的方法
     /**
-     *
      * @param arr 排序的原始数组
      * @param left 左边有序序列的初始索引
-     * @param mid 中间索引
      * @param right 右边索引
-     * @param temp 做中转的数组
+     * @param mid 中间索引
+     * @param temp 中转数组
      */
     public static void merge(int[] arr, int left, int mid, int right, int[] temp) {
 
